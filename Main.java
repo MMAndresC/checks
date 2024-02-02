@@ -132,7 +132,7 @@ public class Main {
 				}
 			}
 		}else if(opcion == 's'){
-			player.setContarNoMov(1);
+			player.setContarNoMov(player.getContarNoMov() + 1);
 		}else if(opcion == 'r') {
 			rendirse = true;
 		}
@@ -171,8 +171,12 @@ public class Main {
 					finJuego = true;
 				}
 			}
+			//Si los dos jugadores pasan de mover se acaba el juego
 			if(player1.getContarNoMov() == 1 && player2.getContarNoMov() == 1) finJuego = true;
+			//Si un jugador se queda sin damas
 			if(player1.getDamasQuedan() == 0 || player2.getDamasQuedan() == 0) finJuego = true;
+			//Si un jugador pasa de mover 3 turnos seguidos
+			if(player1.getContarNoMov() == 3 || player2.getContarNoMov() == 3) finJuego = true;
 		}while(!finJuego);
 	}
 
