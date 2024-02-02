@@ -5,6 +5,11 @@ import com.svalero.presencial.models.Player;
 import com.svalero.presencial.models.Tableboard;
 
 public class Main {
+
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_RED = "\u001B[31m";
 	
 	public static boolean controlMov(Player player, Tableboard tablero, Player other) {
 		int[] damaSeleccionada = new int[2];
@@ -17,7 +22,6 @@ public class Main {
 		int linea = -1, cDerecha = -1, cIzquierda = -1;
 		int[] coordDerecha = new int[2];
 		int[] coordIzquierda = new int[2];
-		String posicionEnemigo = "";
 		String posibilidades = "";
 		coordIzquierda[0] = -1;
 		coordIzquierda[1] = -1;
@@ -32,7 +36,11 @@ public class Main {
 		}
 		System.out.println();
 		System.out.println();
-		System.out.println("Turno del jugador " + player.getNumero());
+		if(player.getNumero() == 1){
+			System.out.println("Turno de las damas rojas");
+		}else{
+			System.out.println("Turno de las damas blancas");
+		}
 		opcion = Game.leerPasoTurno();
 		if(opcion == 'n') {
 			do {
@@ -87,7 +95,7 @@ public class Main {
 						}
 					}
 
-				if(!valido) System.out.println("ERROR ficha mal seleccionada");
+				if(!valido) System.out.println(ANSI_RED + "ERROR ficha mal seleccionada" + ANSI_RESET);
 			}while(!valido);
 			valido = false;
 			if(coordIzquierda[1] != -1){
@@ -96,7 +104,7 @@ public class Main {
 			if(coordDerecha[1] != -1){
 				posibilidades = posibilidades != "" ? posibilidades + " y " + coordDerecha[1] : Integer.toString(coordDerecha[1]);
 			}
-			System.out.println("Posibles movimientos columnas: " + posibilidades );
+			System.out.println(ANSI_GREEN + "Posibles movimientos columnas: " + posibilidades + ANSI_RESET);
 			do {
 				System.out.print("Columna a la que quieres mover: ");
 				coordMov[1] = Game.leerCoordenadas();
@@ -104,7 +112,7 @@ public class Main {
 					valido = true;
 					coordMov[0] = coordMov[1] == coordDerecha[1] ? coordDerecha[0] : coordIzquierda[0];
 				}
-				if(!valido) System.out.println("Error, movimiento no permitido");
+				if(!valido) System.out.println(ANSI_RED + "Error, movimiento no permitido" + ANSI_RESET);
 			}while(!valido);
 		
 			player.setMovLinea(coordMov[0]);
@@ -112,6 +120,7 @@ public class Main {
 			tablero.modificarElementoTablero(coordMov[0], coordMov[1], charNumerojugador);
 			tablero.modificarElementoTablero(damaSeleccionada[0], damaSeleccionada[1], 'L');
 			//Esto es para diferenciar si se ha comido una ficha para borrar la ficha comida del tablero
+			//Añade la ficha al contador del jugador que se la ha comido
 			if(player.getMovLinea() != linea){
 				other.setDamasQuedan(other.getDamasQuedan() - 1);
 				player.setDamasMuertas(player.getDamasMuertas() + 1);
@@ -145,7 +154,7 @@ public class Main {
 				rendirse = controlMov(player1, tablero, player2);
 				if(!rendirse) {
 					tablero.MostrarTablero();
-					System.out.println("Fichas comidas: " + player1.getDamasMuertas());
+					System.out.println(ANSI_BLUE + "Fichas comidas: " + player1.getDamasMuertas() + ANSI_RESET);
 					player2.setTurno(true);
 					player1.setTurno(false);
 				}else {
@@ -155,7 +164,7 @@ public class Main {
 				rendirse = controlMov(player2, tablero, player1);
 				if(!rendirse) {
 					tablero.MostrarTablero();
-					System.out.println("Fichas comidas: " + player2.getDamasMuertas());
+					System.out.println(ANSI_BLUE + "Fichas comidas: " + player2.getDamasMuertas() + ANSI_RESET);
 					player1.setTurno(true);
 					player2.setTurno(false);
 				}else {

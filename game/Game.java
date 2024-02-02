@@ -3,7 +3,9 @@ package com.svalero.presencial.game;
 import java.util.Scanner;
 
 public class Game {
-	
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
     public static int leerCoordenadas() {
         int num = 0;
         String aux;
@@ -16,10 +18,10 @@ public class Game {
                 if(num >= 0 && num <= 7){
                     numeroValido = true;
                 }else {
-                    System.out.println("ERROR coordenada no existente");
+                    System.out.println(ANSI_RED + "ERROR coordenada no existente" + ANSI_RESET);
                 }
             }catch(Exception err){
-                System.out.println("ERROR debe introducir un numero");
+                System.out.println(ANSI_RED + "ERROR debe introducir un numero" + ANSI_RESET);
             }
         }while(!numeroValido);
         return num;
@@ -37,7 +39,7 @@ public class Game {
                     esCharValido = true;
                 }
             }
-            if(!esCharValido) System.out.println("ERROR teclea S, N o R");
+            if(!esCharValido) System.out.println(ANSI_RED + "ERROR teclea S, N o R" + ANSI_RESET);
         }while(!esCharValido);
         return respuesta.charAt(0);
     }

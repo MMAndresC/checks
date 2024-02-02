@@ -3,6 +3,9 @@ package com.svalero.presencial.models;
 import java.util.Arrays;
 
 public class Tableboard {
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_RED = "\u001B[31m";
+
 	private char[][] tablero;
 	
 	public Tableboard () {
@@ -52,16 +55,34 @@ public class Tableboard {
 			if(i== 0) {
 				System.out.print("   ");
 				for(int j = 0; j < 8; j++) {
-					System.out.print(j + "  ");
+					System.out.print(" " + j + "  ");
 				}
 				System.out.println();
 			}
+			dibujaLinea();
 			System.out.println();
-			System.out.print(i + "  ");
+			System.out.print(i + " " + "|");
 			for(int j = 0; j < 8; j++) {
-				System.out.print(this.tablero[i][j] + "  ");
+				if(this.tablero[i][j] == 'L'){
+					System.out.print("   " + "|");
+				}else{
+					if(this.tablero[i][j] == '1'){
+						System.out.print(" " + ANSI_RED + "O" + ANSI_RESET +" |");
+					}else{
+						System.out.print(" " + "O" + " |");
+					}
+				}
 			}
 			System.out.println();
+		}
+		dibujaLinea();
+		System.out.println();
+	}
+
+	private void dibujaLinea() {
+		System.out.print("  ");
+		for(int i=0; i<8; i++){
+			System.out.print("----");
 		}
 	}
 	
